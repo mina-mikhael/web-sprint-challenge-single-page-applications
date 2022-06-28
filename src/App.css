@@ -21,3 +21,7 @@ nav a {
   text-decoration: none;
   margin: 0 2em;
 }
+
+.formContainer {
+  background-color: palegoldenrod;
+}

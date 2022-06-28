@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import * as yup from "yup";
 import { useState, useEffect } from "react";
-
+import image from "./Assets/Pizza.jpg";
 import { Link, Route } from "react-router-dom";
 import Pizza from "./Pizza";
 import "./App.css";
@@ -39,7 +39,7 @@ const initialDisabled = true;
 
 const App = () => {
   ////////////// -- states -- //////////////
-  // const { order, SetOrder } = useState(initialOrder);
+  const { order, SetOrder } = useState(initialOrder);
   const [formValues, setFormValues] = useState(initialFormValues);
   const [disabled, setDisabled] = useState(initialDisabled);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
@@ -56,6 +56,13 @@ const App = () => {
         console.error(err);
       })
       .finally(() => setFormValues(initialFormValues));
+  };
+
+  const getOrder = () => {
+    axios
+      .get("https://reqres.in/api/orders")
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
   };
   ////////////// -- event Handlers -- //////////////
 
@@ -89,7 +96,13 @@ const App = () => {
   };
 
   ////////////// -- side effects -- //////////////
-  schema.isValid(formValues).then((enabled) => setDisabled(!enabled), [formValues]);
+  useEffect(() => {
+    schema.isValid(formValues).then((enabled) => setDisabled(!enabled));
+  }, [formValues]);
+
+  useEffect(() => {
+    getOrder();
+  }, []);
 
   return (
     <div>
@@ -104,7 +117,7 @@ const App = () => {
       </nav>
       <Route exact path={"/"}>
         <div className="home">
-          <img src={"https://img.wallpapersafari.com/desktop/728/410/3/28/svcQhj.jpg"} alt={"pizza"} width="100%" />
+          <img src={image} alt={"pizza"} width="100%" />
         </div>
       </Route>
       <Route exact path={"/pizza"}>
@@ -116,7 +129,11 @@ const App = () => {
           disabled={disabled}
         />
       </Route>
+      <Route exact path={"/order"}>
+        <OrderSummary details={order} />
+      </Route>
     </div>
   );
 };
 export default App;
+

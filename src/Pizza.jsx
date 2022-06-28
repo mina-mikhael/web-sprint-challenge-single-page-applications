@@ -1,4 +1,5 @@
 import React from "react";
+// import { useHistory } from "react-router-dom";
 
 const Pizza = (props) => {
   const { formValues, submitHandler, changeHandler, errors, disabled } = props;
@@ -10,9 +11,10 @@ const Pizza = (props) => {
     changeHandler(name, valueChanger);
   };
 
+  // const nav = useNavigate();
   const formSubmitter = (evt) => {
     evt.preventDefault();
-
+    // nav("/order");
     submitHandler();
   };
   return (
@@ -39,6 +41,9 @@ const Pizza = (props) => {
           <p>required</p>
         </div>
         <select name="size" id="size-dropdown" onChange={inputChanger}>
+          <option selected value="" disabled>
+            --Select a Size--
+          </option>
           <option value="small"> Small</option>
           <option value="medium"> Medium</option>
           <option value="Large"> Large</option>
