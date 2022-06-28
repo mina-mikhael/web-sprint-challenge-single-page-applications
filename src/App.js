@@ -52,7 +52,6 @@ const App = () => {
       .post("https://reqres.in/api/order", foo)
       .then((res) => {
         setOrder(res.data);
-        console.log("post", order);
       })
       .catch((err) => {
         console.error(err);
@@ -107,17 +106,19 @@ const App = () => {
     schema.isValid(formValues).then((enabled) => setDisabled(!enabled));
   }, [formValues]);
 
-  // useEffect(() => {
-  //   getOrder();
-  // }, []);
+  useEffect(() => {
+    postNewOrder();
+  }, []);
 
   return (
     <div>
       <nav>
-        <h1>Bloomtech Pizza </h1>
+        <h1 cy-data="header">Bloomtech Pizza </h1>
         <div className="navLinks">
-          <Link to={"/"}>Home</Link>
-          <Link id="order-pizza" to={"/pizza"}>
+          <Link to={"/"} cy-id="homeButton">
+            Home
+          </Link>
+          <Link id="order-pizza" to={"/pizza"} cy-id="orderButton">
             Order Now
           </Link>
         </div>

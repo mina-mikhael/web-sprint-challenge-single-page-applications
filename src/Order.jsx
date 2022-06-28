@@ -7,17 +7,11 @@ const OrderSummary = (details) => {
 
   return (
     <div className="orderSummary">
+      <h2>Congrats! Pizza is on it's way!</h2>
       <h3> Order Summary for {details.details.customerName}</h3>
       <h4> Size: {details.details.size}</h4>
       <h4> Sauce: {details.details.sauce}</h4>
-      <div>
-        <h4>
-          Toppings:
-          {toppingsArray.map((item, idx) => {
-            return <span key={idx}> {item},</span>;
-          })}
-        </h4>
-      </div>
+      <h4>Toppings: {toppingsArray}</h4>
       <h4>Special Requests: {details.details.special}</h4>
     </div>
   );
