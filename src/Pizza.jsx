@@ -46,7 +46,7 @@ const Pizza = (props) => {
           </option>
           <option value="small"> Small</option>
           <option value="medium"> Medium</option>
-          <option value="Large"> Large</option>
+          <option value="large"> Large</option>
         </select>
 
         <div className="form-item">
