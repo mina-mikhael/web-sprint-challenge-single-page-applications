@@ -1,5 +1,5 @@
 import React from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Pizza = (props) => {
   const { formValues, submitHandler, changeHandler, errors, disabled } = props;
@@ -11,10 +11,14 @@ const Pizza = (props) => {
     changeHandler(name, valueChanger);
   };
 
-  // const nav = useNavigate();
+  const history = useHistory();
+  const routeToSummary = () => {
+    history.push("/order");
+  };
+
   const formSubmitter = (evt) => {
     evt.preventDefault();
-    // nav("/order");
+    routeToSummary();
     submitHandler();
   };
   return (

@@ -3,7 +3,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { useState, useEffect } from "react";
 import image from "./Assets/Pizza.jpg";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, useHistory } from "react-router-dom";
 import Pizza from "./Pizza";
 import "./App.css";
 import schema from "./validation/schema";
@@ -35,22 +35,24 @@ const initialFormErrors = {
 };
 
 const initialOrder = {};
+
 const initialDisabled = true;
 
 const App = () => {
   ////////////// -- states -- //////////////
-  const { order, SetOrder } = useState(initialOrder);
+  const [order, setOrder] = useState(initialOrder);
   const [formValues, setFormValues] = useState(initialFormValues);
   const [disabled, setDisabled] = useState(initialDisabled);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
   ////////////// -- Helpers -- //////////////
 
-  const postNewOrder = (newOrder) => {
+  const postNewOrder = (foo) => {
     axios
-      .post("https://reqres.in/api/orders", newOrder)
+      .post("https://reqres.in/api/order", foo)
       .then((res) => {
-        console.log(res.data);
+        setOrder(res.data);
+        console.log("post", order);
       })
       .catch((err) => {
         console.error(err);
@@ -58,27 +60,32 @@ const App = () => {
       .finally(() => setFormValues(initialFormValues));
   };
 
-  const getOrder = () => {
-    axios
-      .get("https://reqres.in/api/orders")
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
-  };
+  // const getOrder = () => {
+  //   return axios
+  //     .get("https://reqres.in/api/orders")
+  //     .then((res) => {
+  //       setOrder(res.data);
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
+
   ////////////// -- event Handlers -- //////////////
 
   const changeHandler = (name, value) => {
     setFormValues({ ...formValues, [name]: value });
     validate(name, value);
-    console.log(formValues);
   };
+
   const submitHandler = () => {
     const newOrder = {
       customerName: formValues.customerName.trim(),
+      size: formValues.size,
       sauce: formValues.sauce,
       toppings: ["pepperoni", "sausage", "olives", "onions", "cheese"].filter((topping) => !!formValues[topping]),
       special: formValues.special.trim(),
     };
     postNewOrder(newOrder);
+    // getOrder();
   };
 
   ////////////// -- Validation -- /////////////
@@ -100,9 +107,9 @@ const App = () => {
     schema.isValid(formValues).then((enabled) => setDisabled(!enabled));
   }, [formValues]);
 
-  useEffect(() => {
-    getOrder();
-  }, []);
+  // useEffect(() => {
+  //   getOrder();
+  // }, []);
 
   return (
     <div>

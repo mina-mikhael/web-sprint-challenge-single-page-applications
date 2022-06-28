@@ -1,18 +1,24 @@
 import React from "react";
 
+
 const OrderSummary = (details) => {
-  const { customerName, size, sauce, toppings, special } = details;
-  if (!details) {
-    return <h3> Working on your Order !</h3>;
-  }
+
+  let toppingsArray = details.details.toppings;
 
   return (
     <div className="orderSummary">
-      <h2>{details.customerName}'s Order Summary</h2>
-      <h3> Size: {details.size}</h3>
-      <h3> Sauce: {details.sauce}</h3>
-      <h3> Toppings: {details.toppings}</h3>
-      <h3>Special Requests: {details.special}</h3>
+      <h3> Order Summary for {details.details.customerName}</h3>
+      <h4> Size: {details.details.size}</h4>
+      <h4> Sauce: {details.details.sauce}</h4>
+      <div>
+        <h4>
+          Toppings:
+          {toppingsArray.map((item, idx) => {
+            return <span key={idx}> {item},</span>;
+          })}
+        </h4>
+      </div>
+      <h4>Special Requests: {details.details.special}</h4>
     </div>
   );
 };
