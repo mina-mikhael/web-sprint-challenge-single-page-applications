@@ -3,7 +3,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { useState, useEffect } from "react";
 import image from "./Assets/Pizza.jpg";
-import { Link, Route, useHistory } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import Pizza from "./Pizza";
 import "./App.css";
 import schema from "./validation/schema";
@@ -46,12 +46,11 @@ const App = () => {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
 
   ////////////// -- Helpers -- //////////////
-
-  const postNewOrder = (foo) => {
+  const postNewOrder = (newOrder) => {
     axios
-      .post("https://reqres.in/api/order", foo)
+      .post("https://reqres.in/api/order", newOrder)
       .then((res) => {
-        setOrder(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -59,15 +58,15 @@ const App = () => {
       .finally(() => setFormValues(initialFormValues));
   };
 
-  // const getOrder = () => {
-  //   return axios
-  //     .get("https://reqres.in/api/orders")
-  //     .then((res) => {
-  //       setOrder(res.data);
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
-
+  const getOrder = () => {
+    axios
+      .get("https://reqres.in/api/order")
+      .then((res) => {
+        console.log("getter :    ", res);
+        setOrder(res.data);
+      })
+      .catch((err) => console.error(err));
+  };
   ////////////// -- event Handlers -- //////////////
 
   const changeHandler = (name, value) => {
@@ -84,7 +83,6 @@ const App = () => {
       special: formValues.special.trim(),
     };
     postNewOrder(newOrder);
-    // getOrder();
   };
 
   ////////////// -- Validation -- /////////////
@@ -102,13 +100,13 @@ const App = () => {
   };
 
   ////////////// -- side effects -- //////////////
+  // useEffect(() => {
+  //   getOrder();
+  // }, []);
+
   useEffect(() => {
     schema.isValid(formValues).then((enabled) => setDisabled(!enabled));
   }, [formValues]);
-
-  useEffect(() => {
-    postNewOrder();
-  }, []);
 
   return (
     <div>
@@ -144,4 +142,3 @@ const App = () => {
   );
 };
 export default App;
-

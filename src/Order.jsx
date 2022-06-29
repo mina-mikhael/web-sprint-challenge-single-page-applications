@@ -4,7 +4,7 @@ import React from "react";
 const OrderSummary = (details) => {
 
   let toppingsArray = details.details.toppings;
-
+console.log(details);
   return (
     <div className="orderSummary">
       <h2>Congrats! Pizza is on it's way!</h2>
